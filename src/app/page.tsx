@@ -1,43 +1,15 @@
 "use client";
-import FloatingLines from "@/components/FloatingLines";
+import Background from "@/components/Background";
+import { useFloatingLinesPointer } from "@/hooks/useFloatingLinesPointer";
 import Link from "next/link";
-import { useEffect } from "react";
 
 export default function Home() {
-  useEffect(() => {
-    const canvas = document.querySelector(
-      ".floating-lines-container canvas",
-    ) as HTMLElement;
-    if (!canvas) return;
-
-    const forward = (e: PointerEvent) => {
-      const event = new PointerEvent(e.type, e);
-      canvas.dispatchEvent(event);
-    };
-
-    window.addEventListener("pointermove", forward);
-    window.addEventListener("pointerleave", forward);
-
-    return () => {
-      window.removeEventListener("pointermove", forward);
-      window.removeEventListener("pointerleave", forward);
-    };
-  }, []);
+  useFloatingLinesPointer();
 
   return (
     <div>
       {/* Background */}
-      <div className="fixed inset-0 -z-10">
-        <FloatingLines
-          enabledWaves={["top", "middle", "bottom"]}
-          lineCount={5}
-          lineDistance={5}
-          bendRadius={5}
-          bendStrength={-0.5}
-          interactive={true}
-          parallax={true}
-        />
-      </div>
+      <Background />
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-between px-5 py-6 pointer-events-none">
@@ -95,7 +67,7 @@ export default function Home() {
             <br />
             Download Instantly
           </h1>
-          
+
           {/* Hero Subheading */}
           <p className="text-white/50 max-w-sm leading-relaxed m-0 font-normal text-[clamp(14px,2vw,17px)]">
             Create formatted question papers for Classes 1–12 in Bangla or

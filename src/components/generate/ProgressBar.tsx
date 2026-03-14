@@ -4,8 +4,8 @@ interface Props {
 
 export default function ProgressBar({ progress }: Props) {
   return (
-    <div className="mt-4 max-w-md mx-auto">
-      <div className="flex justify-between text-[11px] text-white/30 mb-1">
+    <div className="mt-4 max-w-xl mx-auto">
+      <div className="flex justify-between text-xs text-white/30 mb-1">
         <span>Progress</span>
         <span>{progress}%</span>
       </div>

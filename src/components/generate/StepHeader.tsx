@@ -14,7 +14,7 @@ export default function StepHeader({ step, title }: Props) {
       >
         {step}
       </div>
-      <h2 className="text-white font-semibold text-base">{title}</h2>
+      <h2 className="text-white font-semibold text-2xl">{title}</h2>
     </div>
   );
 }

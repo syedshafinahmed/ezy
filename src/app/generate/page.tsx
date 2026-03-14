@@ -1,12 +1,12 @@
 "use client";
-import FloatingLines from "@/components/FloatingLines";
-import { useEffect } from "react";
 import { useExamForm } from "@/hooks/useExamForm";
 import ProgressBar from "@/components/generate/ProgressBar";
 import ExamInfoStep from "@/components/generate/ExamInfoStep";
 import QuestionCountStep from "@/components/generate/QuestionCountStep";
 import QuestionsStep from "@/components/generate/QuestionsStep";
 import DownloadButton from "@/components/generate/DownloadButton";
+import Background from "@/components/Background";
+import { useFloatingLinesPointer } from "@/hooks/useFloatingLinesPointer";
 
 export default function GeneratePage() {
   const {
@@ -23,20 +23,7 @@ export default function GeneratePage() {
     handleDownload,
   } = useExamForm();
 
-  useEffect(() => {
-    const canvas = document.querySelector(
-      ".floating-lines-container canvas",
-    ) as HTMLElement;
-    if (!canvas) return;
-    const forward = (e: PointerEvent) =>
-      canvas.dispatchEvent(new PointerEvent(e.type, e));
-    window.addEventListener("pointermove", forward);
-    window.addEventListener("pointerleave", forward);
-    return () => {
-      window.removeEventListener("pointermove", forward);
-      window.removeEventListener("pointerleave", forward);
-    };
-  }, []);
+  useFloatingLinesPointer();
 
   return (
     <>
@@ -56,18 +43,10 @@ export default function GeneratePage() {
       `}</style>
 
       <div>
-        <div className="fixed inset-0 -z-10">
-          <FloatingLines
-            enabledWaves={["top", "middle", "bottom"]}
-            lineCount={5}
-            lineDistance={5}
-            bendRadius={5}
-            bendStrength={-0.5}
-            interactive={true}
-            parallax={true}
-          />
-        </div>
+        {/* Background */}
+        <Background />
 
+        {/* Content */}
         <main className="min-h-screen flex flex-col items-center px-4 py-12">
           <div className="w-full max-w-7xl flex flex-col gap-6">
             {/* Header */}
@@ -81,7 +60,7 @@ export default function GeneratePage() {
                   Question Paper
                 </span>
               </h1>
-              <p className="text-white/40 text-sm mt-2">
+              <p className="text-white/40 text-lg mt-2">
                 Fill in the details below — the download button appears when
                 you're done.
               </p>

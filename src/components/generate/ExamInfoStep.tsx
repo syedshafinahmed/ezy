@@ -13,7 +13,6 @@ export default function ExamInfoStep({ meta, onChange }: Props) {
   return (
     <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 sm:p-8">
       <StepHeader step={1} title="Exam Information" />
-
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-3">
           <label className={LABEL_CLASS}>Institution Name</label>
