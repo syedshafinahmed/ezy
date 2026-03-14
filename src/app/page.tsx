@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <div>
-      {/* Background — untouched */}
+      {/* Background */}
       <div className="fixed inset-0 -z-10">
         <FloatingLines
           enabledWaves={["top", "middle", "bottom"]}
@@ -50,6 +50,7 @@ export default function Home() {
             <span className="relative w-2 h-2 rounded-full bg-[#2F4BA2] translate-y-0.5" />
           </div>
 
+          {/* Navigation Links */}
           <div className="flex items-center gap-7 mr-2">
             <a
               href="https://github.com/syedshafinahmed"
@@ -82,7 +83,7 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Georgia only on h1 */}
+          {/* Hero Heading */}
           <h1
             className="text-white font-extrabold leading-[1.1] tracking-tighter m-0 text-[clamp(40px,7vw,72px)]"
             style={{ fontFamily: "'Georgia', serif" }}
@@ -94,12 +95,14 @@ export default function Home() {
             <br />
             Download Instantly
           </h1>
-
+          
+          {/* Hero Subheading */}
           <p className="text-white/50 max-w-sm leading-relaxed m-0 font-normal text-[clamp(14px,2vw,17px)]">
             Create formatted question papers for Classes 1–12 in Bangla or
             English. Clean, fast, and ready to print.
           </p>
 
+          {/* Call to Action */}
           <>
             <style>
               {`
@@ -120,7 +123,7 @@ export default function Home() {
                   }
                 }`}
             </style>
-
+            {/* Call to Action Button */}
             <div>
               <Link
                 href="/generate"
