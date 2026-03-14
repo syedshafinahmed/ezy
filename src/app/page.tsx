@@ -100,17 +100,38 @@ export default function Home() {
             English. Clean, fast, and ready to print.
           </p>
 
-          <Link
-            href="/generate"
-            className="mt-1 px-10 py-3.5 rounded-full text-white font-extralight text-lg tracking-tight no-underline inline-block transition-transform duration-200"
-            style={{
-              background: "linear-gradient(135deg, #E947F5, #2F4BA2)",
-              boxShadow:
-                "0 0 32px rgba(233,71,245,0.3), 0 0 64px rgba(47,75,162,0.2)",
-            }}
-          >
-            Get Started
-          </Link>
+          <>
+            <style>{`
+                .btn-pulse {
+                  animation: btnPulse 2s ease-in-out infinite;
+                }
+                @keyframes btnPulse {
+                  0%, 10% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(233, 71, 245, 0.7);
+                  }
+                  45%, 55% {
+                    box-shadow: 0 0 0 10px rgba(233, 71, 245, 0);
+                  }
+                  100% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(233, 71, 245, 0);
+                  }
+                }`}
+            </style>
+
+            <div>
+              <Link
+                href="/generate"
+                className="btn-pulse mt-1 px-10 py-3.5 rounded-full text-white font-extralight text-lg tracking-tight no-underline inline-block"
+                style={{
+                  background: "linear-gradient(135deg, #E947F5, #2F4BA2)",
+                }}
+              >
+                Get Started
+              </Link>
+            </div>
+          </>
         </div>
 
         {/* Footer */}
