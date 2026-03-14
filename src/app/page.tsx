@@ -42,7 +42,7 @@ export default function Home() {
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-between px-5 py-6 pointer-events-none">
         {/* Navbar */}
-        <nav className="flex items-center justify-between px-5 py-2.5 rounded-full border border-white/10 bg-white/10 backdrop-blur-2xl w-[min(700px,92vw)] pointer-events-auto">
+        <nav className="flex items-center justify-between px-5 py-2.5 rounded-full border border-white/10 bg-transparent backdrop-blur-2xl w-[min(700px,92vw)] pointer-events-auto">
           <div className="flex items-center translate-y-2">
             <span className="text-5xl -translate-y-3 font-bold tracking-tighter bg-[linear-gradient(100deg,#E947F5_0%,#2F4BA2_100%)] bg-clip-text text-transparent">
               ezy
@@ -88,7 +88,7 @@ export default function Home() {
             style={{ fontFamily: "'Georgia', serif" }}
           >
             Generate{" "}
-            <span className="bg-[linear-gradient(100deg,#E947F5_0%,#2F4BA2_100%)] bg-clip-text text-transparent">
+            <span className="bg-[linear-gradient(100deg,#E947F5_0%,#2F4BA2_100%)] bg-clip-text text-transparent pr-1">
               Questions
             </span>
             <br />
@@ -101,7 +101,8 @@ export default function Home() {
           </p>
 
           <>
-            <style>{`
+            <style>
+              {`
                 .btn-pulse {
                   animation: btnPulse 2s ease-in-out infinite;
                 }
