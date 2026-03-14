@@ -1,7 +1,9 @@
 "use client";
 import Background from "@/components/Background";
+import Footer from "@/components/home/Footer";
+import Hero from "@/components/home/Hero";
+import Navbar from "@/components/home/Navbar";
 import { useFloatingLinesPointer } from "@/hooks/useFloatingLinesPointer";
-import Link from "next/link";
 
 export default function Home() {
   useFloatingLinesPointer();
@@ -13,116 +15,9 @@ export default function Home() {
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-between px-5 py-6 pointer-events-none">
-        {/* Navbar */}
-        <nav className="flex items-center justify-between px-5 py-2.5 rounded-full border border-white/10 bg-transparent backdrop-blur-2xl w-[min(700px,92vw)] pointer-events-auto">
-          <div className="flex items-center translate-y-2">
-            <span className="text-5xl -translate-y-3 font-bold tracking-tighter bg-[linear-gradient(100deg,#E947F5_0%,#2F4BA2_100%)] bg-clip-text text-transparent">
-              ezy
-            </span>
-            <span className="relative w-2 h-2 rounded-full bg-[#2F4BA2] translate-y-0.5" />
-          </div>
-
-          {/* Navigation Links */}
-          <div className="flex items-center gap-7 mr-2">
-            <a
-              href="https://github.com/syedshafinahmed"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/70 text-sm font-medium no-underline transition-colors duration-200 hover:text-[#E947F5]"
-            >
-              Services
-            </a>
-            <a
-              href="https://www.linkedin.com/in/syed-shafin-ahmed/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/70 text-sm font-medium no-underline transition-colors duration-200 hover:text-[#E947F5]"
-            >
-              Support
-            </a>
-          </div>
-        </nav>
-
-        {/* Hero */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center gap-7 pointer-events-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#E947F5]/30 bg-[#E947F5]/8">
-            <div className="relative flex items-center justify-center w-3 h-3">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-[#E947F5]/40 animate-ping" />
-              <span className="relative w-1.5 h-1.5 rounded-full bg-[#E947F5] shadow-[0_0_6px_#E947F5]" />
-            </div>
-            <span className="text-white/75 text-xs font-medium uppercase tracking-widest">
-              Question Paper Generator
-            </span>
-          </div>
-
-          {/* Hero Heading */}
-          <h1
-            className="text-white font-extrabold leading-[1.1] tracking-tighter m-0 text-[clamp(40px,7vw,72px)]"
-            style={{ fontFamily: "'Georgia', serif" }}
-          >
-            Generate{" "}
-            <span className="bg-[linear-gradient(100deg,#E947F5_0%,#2F4BA2_100%)] bg-clip-text text-transparent pr-1">
-              Questions
-            </span>
-            <br />
-            Download Instantly
-          </h1>
-
-          {/* Hero Subheading */}
-          <p className="text-white/50 max-w-sm leading-relaxed m-0 font-normal text-[clamp(14px,2vw,17px)]">
-            Create formatted question papers for Classes 1–12 in Bangla or
-            English. Clean, fast, and ready to print.
-          </p>
-
-          {/* Call to Action */}
-          <>
-            <style>
-              {`
-                .btn-pulse {
-                  animation: btnPulse 2s ease-in-out infinite;
-                }
-                @keyframes btnPulse {
-                  0%, 10% {
-                    transform: scale(1);
-                    box-shadow: 0 0 0 0 rgba(233, 71, 245, 0.7);
-                  }
-                  45%, 55% {
-                    box-shadow: 0 0 0 10px rgba(233, 71, 245, 0);
-                  }
-                  100% {
-                    transform: scale(1);
-                    box-shadow: 0 0 0 0 rgba(233, 71, 245, 0);
-                  }
-                }`}
-            </style>
-            {/* Call to Action Button */}
-            <div>
-              <Link
-                href="/generate"
-                className="btn-pulse mt-1 px-10 py-3.5 rounded-full text-white font-extralight text-lg tracking-tight no-underline inline-block"
-                style={{
-                  background: "linear-gradient(135deg, #E947F5, #2F4BA2)",
-                }}
-              >
-                Get Started
-              </Link>
-            </div>
-          </>
-        </div>
-
-        {/* Footer */}
-        <div className="text-white/40 m-0 pointer-events-auto flex gap-1 items-center">
-          <span className="text-2xl translate-y-1">
-            {String.fromCharCode(169)}
-          </span>
-          <span className="text-sm">
-            {new Date().getFullYear()}{" "}
-            <span className="bg-[linear-gradient(100deg,#E947F5_0%,#2F4BA2_100%)] bg-clip-text text-transparent">
-              ezy
-            </span>{" "}
-            · Built for students & educators
-          </span>
-        </div>
+        <Navbar />
+        <Hero />
+        <Footer />
       </div>
     </div>
   );

@@ -67,8 +67,10 @@ export default function GeneratePage() {
               <ProgressBar progress={progress} />
             </div>
 
+            {/* Exam Info Step */}
             <ExamInfoStep meta={meta} onChange={handleMetaChange} />
 
+            {/* Question Count Step */}
             {metaComplete && (
               <QuestionCountStep
                 value={questionCount}
@@ -76,6 +78,7 @@ export default function GeneratePage() {
               />
             )}
 
+            {/* Questions Step */}
             {metaComplete &&
               typeof questionCount === "number" &&
               questionCount > 0 && (
@@ -85,6 +88,7 @@ export default function GeneratePage() {
                 />
               )}
 
+            {/* Download Button Step */}
             {questionsReady && (
               <DownloadButton
                 isGenerating={isGenerating}
