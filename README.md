@@ -1,4 +1,4 @@
-<img src="./public/icon.png" alt="ezy" width="100" />
+<img src="./public/icon.png" alt="ezy" width="40" />
 
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=000000)](https://react.dev/)
