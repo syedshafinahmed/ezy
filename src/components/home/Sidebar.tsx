@@ -32,7 +32,7 @@ const Sidebar = () => {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-colors duration-200 text-xl"
+          className="duration-200 text-xl hover:translate-x-1 transition-all"
           style={{ color: hoveredIndex === index ? hoverColor : "rgba(255,255,255,0.4)" }}
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
