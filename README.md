@@ -8,7 +8,4 @@
 
 A clean, fast question paper generator, supporting both Bangla and English versions.
 
-## Status
-
-> 🚧 This project is still under active development. Features may change and some things might break.
-
+> This project is still under active development. Features may change and some things might break.
