@@ -23,7 +23,7 @@ const Sidebar = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="fixed left-4 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-4 pointer-events-auto">
+    <div className="hidden sm:flex fixed left-4 top-1/2 -translate-y-1/2 z-20 flex-col items-center gap-4 pointer-events-auto">
       <div className="w-px h-16 bg-linear-to-b from-transparent to-white/20" />
 
       {socials.map(({ icon: Icon, href, hoverColor }, index) => (
