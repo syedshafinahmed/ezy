@@ -17,7 +17,7 @@ export default function Home() {
       <Sidebar />
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-between px-5 py-6 pointer-events-none">
+      <div className="relative z-10 h-dvh md:min-h-screen flex flex-col items-center justify-between px-5 py-4 md:py-6 pointer-events-none">
         <Navbar />
         <Hero />
         <Footer />
