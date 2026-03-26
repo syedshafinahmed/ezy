@@ -9,3 +9,6 @@
 A clean, fast question paper generator, supporting both Bangla and English versions.
 
 > This project is still under active development. Features may change and some things might break.
+
+
+### Live Demo → [ezy](https://ezy-ssa.vercel.app/)
