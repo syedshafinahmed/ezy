@@ -60,7 +60,7 @@ export function useExamForm() {
     setIsGenerating(true);
     try {
       const { generateExamPdf } = await import("@/lib/generateExamPdf");
-      generateExamPdf({
+      await generateExamPdf({
         institutionName: meta.institutionName,
         version: meta.version as "Bangla" | "English",
         time: meta.time,
