@@ -1,0 +1,1 @@
+export const NotoSansBengaliBase64 = " +font.toString( base64)+;
