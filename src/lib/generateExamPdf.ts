@@ -1,7 +1,7 @@
 import { ExamData } from "./types";
 
 const BANGLA_LABELS = {
-  mcq: "বহুনির্বাচনি প্রশ্ন",
+  mcq: "সংক্ষিপ্ত প্রশ্ন",
   class: "শ্রেণি",
   chapter: "অধ্যায়",
   time: "সময়",
@@ -9,7 +9,7 @@ const BANGLA_LABELS = {
 };
 
 const ENGLISH_LABELS = {
-  mcq: "Multiple Choice Questions (MCQ)",
+  mcq: "Short Questions",
   class: "Class",
   chapter: "Chapter",
   time: "Time",
@@ -49,9 +49,10 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
           align-items:center;
           justify-content:center;
           flex-shrink:0;
-          margin-top:3px;
           font-family:Arial,sans-serif;
-          text-decoration:none !important;
+          transform: translateY(2px);
+          line-height:1;
+          padding-bottom:10px;
         ">${i + 1}</div>
         <div style="
           flex:1;
@@ -130,13 +131,7 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
               color:white;
             ">${data.institutionName}</span>
           </div>
-          <div style="
-            width:60px;
-            height:4px;
-            background:#E947F5;
-            margin:0 auto;
-            border-radius:2px;
-          "></div>
+          <div style="height:4px;"></div>
         </div>
 
         <!-- MCQ Title -->
