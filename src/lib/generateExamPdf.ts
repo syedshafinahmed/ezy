@@ -296,7 +296,7 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
       logging: false,
       backgroundColor: "#f0f2f8",
       width: 1240,
-      onclone: (clonedDoc) => {
+      onclone: (clonedDoc: Document) => {
         Array.from(clonedDoc.styleSheets).forEach((sheet) => {
           try {
             sheet.disabled = true;
@@ -305,7 +305,7 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
           }
         });
       },
-    });
+    } as Parameters<typeof html2canvas>[1]);
 
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
     const pdf = new jsPDF({
