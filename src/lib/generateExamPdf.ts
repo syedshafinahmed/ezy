@@ -332,7 +332,7 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
       heightLeft -= pageHeight;
     }
 
-    pdf.save(`MCQ_Class${data.classLevel}_Ch${data.chapter}.pdf`);
+    pdf.save(`CQ_Class${data.classLevel}_Ch${data.chapter}.pdf`);
   } finally {
     document.body.removeChild(wrapper);
   }

@@ -62,7 +62,7 @@ export default function GeneratePage() {
               </h1>
               <p className="text-white/40 text-lg mt-2">
                 Fill in the details below — the download button appears when
-                you're done.
+                you&apos;re done.
               </p>
               <ProgressBar progress={progress} />
             </div>
