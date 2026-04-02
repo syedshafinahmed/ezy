@@ -1,6 +1,6 @@
 const Navbar = () => {
   return (
-    <div className="relative rounded-full p-0.5 bg-[#0d0d1a] w-[min(700px,92vw)] pointer-events-auto">
+    <div className="relative rounded-full p-px bg-[#0d0d1a] w-[min(700px,92vw)] pointer-events-auto">
       {/* Spinning border */}
       <div className="absolute inset-0 rounded-full overflow-hidden">
         <div
