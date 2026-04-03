@@ -1,5 +1,6 @@
 "use client";
 import { useState, useCallback } from "react";
+import { isRichTextEmpty } from "@/lib/isRichTextEmpty";
 import { ExamMeta, INITIAL_META } from "@/lib/types";
 
 export function useExamForm() {
@@ -21,7 +22,7 @@ export function useExamForm() {
     typeof questionCount === "number" &&
     questionCount > 0 &&
     questions.length === questionCount &&
-    questions.every((q) => q.trim() !== "");
+    questions.every((q) => !isRichTextEmpty(q));
 
   const handleMetaChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -80,7 +81,7 @@ export function useExamForm() {
   const completedSteps =
     completedMeta +
     (questionCount !== "" ? 1 : 0) +
-    questions.filter((q) => q.trim() !== "").length;
+    questions.filter((q) => !isRichTextEmpty(q)).length;
   const progress = Math.round((completedSteps / totalSteps) * 100);
 
   return {

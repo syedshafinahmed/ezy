@@ -1,4 +1,17 @@
+import { isRichTextEmpty } from "./isRichTextEmpty";
+import { renderMathForPdf } from "./renderMathForPdf";
 import { ExamData } from "./types";
+
+const KATEX_CSS_URL =
+  "https://cdn.jsdelivr.net/npm/katex@0.16.44/dist/katex.min.css";
+
+/** Inlined KaTeX CSS uses `url(fonts/...)`, which must resolve to the CDN or fonts never load. */
+function absolutizeKatexFontUrls(css: string): string {
+  return css.replace(
+    /url\(fonts\//g,
+    "url(https://cdn.jsdelivr.net/npm/katex@0.16.44/dist/fonts/",
+  );
+}
 
 const BANGLA_LABELS = {
   mcq: "সংক্ষিপ্ত প্রশ্ন",
@@ -25,8 +38,16 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
     import("jspdf"),
   ]);
 
+  let katexInlineCss = "";
+  try {
+    const res = await fetch(KATEX_CSS_URL);
+    if (res.ok) katexInlineCss = absolutizeKatexFontUrls(await res.text());
+  } catch {
+    /* math may render without full KaTeX styling */
+  }
+
   const questionsHtml = data.questions
-    .filter((q) => q.trim())
+    .filter((q) => !isRichTextEmpty(q))
     .map(
       (q, i) => `
       <div style="
@@ -54,7 +75,7 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
           line-height:1;
           padding-bottom:10px;
         ">${i + 1}</div>
-        <div style="
+        <div class="question-html" style="
           flex:1;
           font-size:15px;
           line-height:1.8;
@@ -67,28 +88,46 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
     )
     .join("");
 
-  const wrapper = document.createElement("div");
-  wrapper.setAttribute(
-    "style",
-    [
-      "position:fixed",
-      "top:-99999px",
-      "left:-99999px",
-      "width:1240px",
-      "background:#f0f2f8",
-      "z-index:-9999",
-      "all:initial",
-      "font-family:'Noto Sans Bengali','Noto Sans',Arial,sans-serif",
-      "font-size:16px",
-      "color:#1a1a2e",
-      "box-sizing:border-box",
-      "display:block",
-    ].join(";"),
-  );
-
-  wrapper.innerHTML = `
-    <div style="
-      all:initial;
+  /** Full HTML for an isolated document (no Tailwind / lab() colors — html2canvas cannot parse them). */
+  const pdfDocumentHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1240" />
+  <style>
+    ${katexInlineCss}
+  </style>
+  <style>
+    html, body { margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      outline: none !important;
+    }
+    /* Don’t kill KaTeX fraction lines (they rely on border-bottom). */
+    a {
+      text-decoration: none !important;
+      border-bottom: none !important;
+    }
+    .question-html img {
+      display: block !important;
+      margin: 10px auto !important;
+      max-width: min(100%, 640px) !important;
+      max-height: 360px !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain;
+    }
+    .question-html .katex { color: inherit !important; }
+    /* No extra fraction CSS overrides.
+       PDF math is rendered with KaTeX output=svg (see renderMathForPdf),
+       which avoids html2canvas border rendering issues. */
+    .question-html p { margin: 0.35em 0; }
+    .question-html strong { font-weight: 700; }
+    .question-html em { font-style: italic; }
+  </style>
+</head>
+<body style="background:#f0f2f8;font-family:'Noto Sans Bengali','Noto Sans',Arial,sans-serif;font-size:16px;color:#1a1a2e;">
+  <div id="pdf-capture-root" style="
       display:block;
       font-family:'Noto Sans Bengali','Noto Sans',Arial,sans-serif;
       padding:32px;
@@ -96,14 +135,6 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
       width:1240px;
       box-sizing:border-box;
     ">
-      <style>
-        * {
-          text-decoration: none !important;
-          border-bottom: none !important;
-          outline: none !important;
-        }
-      </style>
-
       <div style="
         background:white;
         border-radius:8px;
@@ -243,6 +274,7 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
               font-weight:600;
               color:#8896b3;
               font-family:Arial,sans-serif;
+              white-space:nowrap;
               text-decoration:none !important;
             ">${labels.date}</span>
             <span style="
@@ -250,6 +282,7 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
               font-weight:700;
               color:#2F4BA2;
               font-family:Arial,sans-serif;
+              white-space:nowrap;
               text-decoration:none !important;
             ">${data.date}</span>
           </div>
@@ -276,35 +309,53 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
             color:rgba(255,255,255,0.6);
             font-style:italic;
             font-family:Arial,sans-serif;
+            white-space:nowrap;
             text-decoration:none !important;
           ">Generated by ezy</span>
         </div>
 
       </div>
     </div>
-  `;
+</body>
+</html>`;
 
-  document.body.appendChild(wrapper);
-  await new Promise((r) => setTimeout(r, 800));
+  const iframe = document.createElement("iframe");
+  iframe.setAttribute("aria-hidden", "true");
+  iframe.title = "pdf-render";
+  iframe.style.cssText =
+    "position:fixed;left:-9999px;top:0;width:1240px;height:12000px;border:0;opacity:0;pointer-events:none";
+  document.body.appendChild(iframe);
+
+  const idoc = iframe.contentDocument!;
+  idoc.open();
+  idoc.write(pdfDocumentHtml);
+  idoc.close();
+
+  const captureRoot = idoc.getElementById("pdf-capture-root") as HTMLElement | null;
+  if (!captureRoot) {
+    document.body.removeChild(iframe);
+    throw new Error("PDF render root missing");
+  }
+
+  /** TipTap saves only `data-latex` on empty nodes; KaTeX must run here to match the editor. */
+  renderMathForPdf(captureRoot);
+
+  if (idoc.fonts?.ready) {
+    await idoc.fonts.ready;
+  }
+  await new Promise((r) => setTimeout(r, 150));
 
   try {
-    const el = wrapper.firstElementChild as HTMLElement;
-
-    const canvas = await html2canvas(el, {
-      scale: 2,
+    const canvas = await html2canvas(captureRoot, {
+      scale: 3,
       useCORS: true,
+      allowTaint: true,
       logging: false,
       backgroundColor: "#f0f2f8",
       width: 1240,
-      onclone: (clonedDoc: Document) => {
-        Array.from(clonedDoc.styleSheets).forEach((sheet) => {
-          try {
-            sheet.disabled = true;
-          } catch {
-            // ignore cross-origin
-          }
-        });
-      },
+      windowWidth: 1240,
+      // Helps KaTeX borders/fraction lines match more closely.
+      foreignObjectRendering: true,
     } as Parameters<typeof html2canvas>[1]);
 
     const imgData = canvas.toDataURL("image/jpeg", 1.0);
@@ -334,6 +385,6 @@ export async function generateExamPdf(data: ExamData): Promise<void> {
 
     pdf.save(`CQ_Class${data.classLevel}_Ch${data.chapter}.pdf`);
   } finally {
-    document.body.removeChild(wrapper);
+    document.body.removeChild(iframe);
   }
 }
